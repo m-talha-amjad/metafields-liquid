@@ -1,0 +1,16 @@
+{%- for option in product.options_with_values -%}  
+
+{%- assign index = forloop.index0 -%}
+  
+  {%- for swatch_image in product.metafields.custom.swatches_images.value -%}
+    {%- if index == forloop.index0 -%}
+      {%- assign option_swatch_image = swatch_image | image_url: width: 50 -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {% if product.metafields.custom.swatches_images.value != blank and option.name == 'Color' %}
+    <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="talha" title="{{ value | escape }}" style="background-size: cover; background-image: url('{{ option_swatch_image }}')"> 
+    </label>
+   {%- endif -%}
+
+
+{%- endfor -%}
