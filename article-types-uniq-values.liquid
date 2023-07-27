@@ -1,0 +1,11 @@
+{% assign article_types = '' %}
+
+{% for article in blog.articles %}
+{% assign article_types = article_types | append: article.metafields.custom.article_type | append: ',' %}
+{% endfor %}
+
+{% assign article_types = article_types | split: ',' | uniq %}
+
+{% for type in article_types %}
+{{ type }}
+{% endfor %}
