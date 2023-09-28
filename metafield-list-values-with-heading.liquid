@@ -1,0 +1,12 @@
+{% assign tech_specs = product.metafields.custom.tech_specs %}
+  {% if tech_specs %}        
+<h3 class="tt-collapse-title">{{ tech_specs | newline_to_br | split: '<br />' | first }}</h3>
+        <div class="tt-collapse-content includes-list">
+            <ul>
+                {% assign list_items = tech_specs  | newline_to_br | split: '<br />' %}
+                {% for item in list_items offset: 1 %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+  {% endif %}
