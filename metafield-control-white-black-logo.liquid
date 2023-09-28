@@ -1,0 +1,47 @@
+ {% comment %}
+      aspenfactor.com(atlantic-16.1-Os-2.0)
+      In theme.liquid file
+  {% endcomment %}
+ {% liquid
+    if page.metafields.custom.show_black_logo
+    assign show_black_logo = true
+    elsif blog.metafields.custom.show_black_logo
+    assign show_black_logo = true
+    elsif article.metafields.custom.show_black_logo
+    assign show_black_logo = true
+    endif
+  %}
+  {% if show_black_logo %}
+  <style>
+    body .store-logo  span.white {
+      display: none;
+    }
+    body .store-logo span.black {
+      display: block !important;
+    }
+  </style>
+  {% endif %}
+
+{% comment %}
+     In header file
+    {% endcomment %}
+ {% if second_logo != blank %}
+      <span class="black" style="display:none;">
+        {%
+          render 'rimg'
+          img: second_logo,
+          alt: shop.description,
+          size: '800x800',
+          focal_point: logo.presentation.focal_point,
+        %}
+      </span>
+    {% endif %}
+    <span class="white">
+      {%
+        render 'rimg'
+        img: logo,
+        alt: shop.description,
+        size: '800x800',
+        focal_point: logo.presentation.focal_point,
+      %}
+    </span>
