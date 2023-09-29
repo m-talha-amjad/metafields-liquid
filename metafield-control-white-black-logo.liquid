@@ -13,6 +13,12 @@
       assign show_black_logo = true
     elsif settings.cart_show_black_logo and template == 'cart'
       assign show_black_logo = true
+    elsif settings.search_show_black_logo and template == 'search'
+      assign show_black_logo = true
+    elsif settings.four_zero_four_show_black_logo and template == '404'
+      assign show_black_logo = true
+    elsif settings.customers_show_black_logo and template.directory == 'customers'
+      assign show_black_logo = true
     elsif page.metafields.custom.show_black_logo
       assign show_black_logo = true
     elsif blog.metafields.custom.show_black_logo
@@ -69,7 +75,7 @@
         "type": "checkbox",
         "label": "Show Black Logo",
         "id": "index_show_black_logo",
-        "default": true
+        "default": false
       },
       {
         "type": "header",
@@ -109,6 +115,36 @@
         "type": "checkbox",
         "label": "Show Black Logo",
         "id": "cart_show_black_logo",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Search Page"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Black Logo",
+        "id": "search_show_black_logo",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "404 Page"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Black Logo",
+        "id": "four_zero_four_show_black_logo",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Customers Account Page"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Black Logo",
+        "id": "customers_show_black_logo",
         "default": true
       }
     ]
