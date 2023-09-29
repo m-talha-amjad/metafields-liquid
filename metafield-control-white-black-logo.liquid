@@ -2,13 +2,17 @@
       aspenfactor.com(atlantic-16.1-Os-2.0)
       In theme.liquid file
   {% endcomment %}
- {% liquid
-    if page.metafields.custom.show_black_logo
-    assign show_black_logo = true
+   {% liquid
+    if settings.collection_show_black_logo and template == 'collection'
+      assign show_black_logo = true
+    elsif settings.product_show_black_logo and template == 'collection'
+      assign show_black_logo = true
+    elsif page.metafields.custom.show_black_logo
+      assign show_black_logo = true
     elsif blog.metafields.custom.show_black_logo
-    assign show_black_logo = true
+      assign show_black_logo = true
     elsif article.metafields.custom.show_black_logo
-    assign show_black_logo = true
+      assign show_black_logo = true
     endif
   %}
   {% if show_black_logo %}
@@ -22,9 +26,9 @@
   </style>
   {% endif %}
 
-{% comment %}
-     In header file
-    {% endcomment %}
+ {% comment %}
+   In header file
+ {% endcomment %}
  {% if second_logo != blank %}
       <span class="black" style="display:none;">
         {%
@@ -45,3 +49,31 @@
         focal_point: logo.presentation.focal_point,
       %}
     </span>
+ {% comment %}
+   In settings.schema
+ {% endcomment %}
+  {
+    "name": "Logo Color",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Collection Page"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Black Logo",
+        "id": "collection_show_black_logo",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Product Page"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Black Logo",
+        "id": "product_show_black_logo",
+        "default": true
+      }
+    ]
+  },
