@@ -2,17 +2,17 @@
       aspenfactor.com(atlantic-16.1-Os-2.0)
       In theme.liquid file
   {% endcomment %}
-    {% liquid
+  {% liquid
     if settings.index_show_black_logo and template == 'index'
-      assign show_black_logo = true
-    elsif settings.collection_show_black_logo and template == 'collection'
       assign show_black_logo = true
     elsif settings.product_show_black_logo and template == 'product'
       assign show_black_logo = true
+    elsif settings.collection_show_black_logo and template == 'collection'
+      assign show_black_logo = true
     elsif settings.collections_list_show_black_logo and template == 'list-collections'
-    assign show_black_logo = true
+      assign show_black_logo = true
     elsif settings.cart_show_black_logo and template == 'cart'
-    assign show_black_logo = true
+      assign show_black_logo = true
     elsif page.metafields.custom.show_black_logo
       assign show_black_logo = true
     elsif blog.metafields.custom.show_black_logo
@@ -58,7 +58,7 @@
  {% comment %}
    In settings.schema
  {% endcomment %}
-   {
+  {
     "name": "Logo Color",
     "settings": [
       {
@@ -73,22 +73,22 @@
       },
       {
         "type": "header",
-        "content": "Collection Page"
-      },
-      {
-        "type": "checkbox",
-        "label": "Show Black Logo",
-        "id": "collection_show_black_logo",
-        "default": true
-      },
-      {
-        "type": "header",
         "content": "Product Page"
       },
       {
         "type": "checkbox",
         "label": "Show Black Logo",
         "id": "product_show_black_logo",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Collection Page"
+      },
+      {
+        "type": "checkbox",
+        "label": "Show Black Logo",
+        "id": "collection_show_black_logo",
         "default": true
       },
       {
