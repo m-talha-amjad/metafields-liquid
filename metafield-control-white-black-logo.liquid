@@ -5,9 +5,9 @@
   {% liquid
     if settings.index_show_black_logo and template == 'index'
       assign show_black_logo = true
-    elsif settings.product_show_black_logo and template == 'product'
+    elsif settings.product_show_black_logo and template.name == 'product'
       assign show_black_logo = true
-    elsif settings.collection_show_black_logo and template == 'collection'
+    elsif settings.collection_show_black_logo and template.name == 'collection'
       assign show_black_logo = true
     elsif settings.collections_list_show_black_logo and template == 'list-collections'
       assign show_black_logo = true
