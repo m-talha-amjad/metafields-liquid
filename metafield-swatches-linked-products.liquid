@@ -1,0 +1,71 @@
+        {%- when 'product_swatches' -%}
+          <style>
+           .swatches-wrap {
+              display: flex;
+              flex-wrap: wrap;
+              gap: var(--spacing--item);
+            }
+            .swatch-product {
+                position: relative;
+                display: inline-block;
+                height: 24px;
+                width: 24px;
+                min-width: 24px;
+                margin-left: -1px;
+                border: 1px solid var(--bdr-color--general);
+                border-radius: 50%;
+                padding-bottom: 0;
+                background-size: cover;
+            }
+            .swatch-product:before {
+                content: '';
+                height: 30px;
+                width: 30px;
+                border-radius: 50%;
+                border: 2px solid var(--color--body--light);
+                top: -4px;
+                left: -4px;
+                position: absolute;
+                display: inline-block;
+            }
+            .swatch-product:not(.selected-swatch):before {
+                border: 2px solid var(--bdr-color--general);
+            }
+            .swatch-product.selected-swatch:before {
+                border: 2px solid var(--color--body);
+                content: '';
+            }
+            .swatch-product img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+            .swatces-header {
+                display: flex;
+                padding-bottom: var(--spacing--1);
+                gap: var(--spacing--1);
+                font-family: var(--font--accent--family);
+                font-weight: var(--font--accent--weight);
+                font-style: var(--font--accent--style);
+                text-transform: uppercase;
+                font-size: var(--font--accent--size);
+                letter-spacing: 1px;
+            }
+            .swatch-label, .swatch-name {
+              text-transform: uppercase;
+            }
+          </style>
+          <div class="swatces-header">
+            <span class="swatch-label">COLOR</span>
+            <span class="swatch-name">{{ product.metafields.custom.swatch_name }}</span>
+          </div>
+          <div class="swatches-wrap">
+            <div class="swatch-product selected-swatch">
+              <img src="{{ product.metafields.custom.swatch_image |  image_url: width: 50  }}" width="50" height="50" loading="eager" alt="{{ product.metafields.custom.swatch_image.alt }}">
+            </div>
+          {% for swatch_product in product.metafields.custom.product_swatches.value %}
+            <a class="swatch-product" href="{{ swatch_product.url }}">
+              <img src="{{ swatch_product.metafields.custom.swatch_image |  image_url: width: 50  }}" width="50" height="50" loading="eager" alt="{{ swatch_product.metafields.custom.swatch_image.alt }}">
+            </a>
+          {% endfor %}
+          </div>
