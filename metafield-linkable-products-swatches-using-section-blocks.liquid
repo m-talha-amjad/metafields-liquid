@@ -1,0 +1,288 @@
+
+(* poppyandpink.com(Impulse-7.4-OS-2.0) *)
+
+
+
+(* IN settings_schema.json *)
+(* ======================= *)
+
+  {
+    "name": "Color swatches",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.product_tiles.settings.header_color_swatches"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_swatches",
+        "label": "t:settings_schema.product_tiles.settings.enable_swatches.label"
+      },
+      {
+        "type": "textarea",
+        "id": "color_swatch_configuration",
+        "label": "Configuration",
+        "placeholder": "Red:#cc342f\nBlack:black-leather.jpg",
+        "info": "Each color combination must be on its own line. You can map color option values to either a hexadecimal value or an image file. [Learn more](https:\/\/loess.ticksy.com\/article\/18636\/)"
+      },
+      {
+        "type": "select",
+        "id": "swatch_style",
+        "label": "t:settings_schema.product_tiles.settings.swatch_style.label",
+        "default": "round",
+        "options": [
+          {
+            "value": "round",
+            "label": "t:settings_schema.product_tiles.settings.swatch_style.options.round.label"
+          },
+          {
+            "value": "square",
+            "label": "t:settings_schema.product_tiles.settings.swatch_style.options.square.label"
+          }
+        ]
+      }
+    ]
+  },
+
+
+
+
+(* IN en.default.json *)
+(* product object in json *)
+(* ======================= *)
+
+{%- assign color_label_list = 'products.option.color' | t | replace: ', ', ',' | downcase | split: ',' | first -%}
+
+  "products": {
+  
+    "option": {
+      "color": "Color,Colour"
+    },
+
+}
+
+
+(* IN main-product.liquid section  *)
+(* ======================= *)
+{{ 'pi-main-product-linkable-product-swatches.css' |  asset_url | stylesheet_tag }}
+
+
+
+<style>
+.product-variation-block {
+
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.card-swatches__button {
+  position: relative;
+  height: 20px;
+  width: 20px;
+  font-size: 0;
+  background-color: var(--swatch-color);
+  border-radius: 50px;
+  border: 1px solid rgba(var(--colorTextBody), 0.3);
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25px 25px;
+}
+
+
+
+
+.card-swatches__button--large {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background-size: 31px 31px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+label.card-swatches__button--large::after,
+.card-swatches__button--large::after {
+  padding: 17.5px;
+}
+
+.card-swatches__button::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  padding: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--colorTextBody);
+  opacity: 0;
+  transform: scale(0.85);
+  transition: transform calc(100ms * var(--animations-multiple)) ease-out, opacity calc(100ms * var(--animations-multiple)) ease-out;
+}
+
+.card-swatches__button--active::after {
+  opacity: 0.75;
+  transform: scale(1);
+  padding: 17.5px;
+}
+
+.card-swatches__button--material {
+  background-size: cover;
+}
+
+label.card-swatches__button--large:after, .card-swatches__button--large:after {
+  padding: 18.5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.product-variation__wrapper {
+  line-height: 40px;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+}
+
+.product-variation__list {
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 1px;
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  align-items: end;
+}
+
+
+
+
+
+
+@media (hover: hover) {
+  .main-product__block-variant-picker .card-swatches__button {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .main-product__block-variant-picker .card-swatches__button > span {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    position: absolute;
+    top: -10px;
+    left: 80%;
+    font-size: 0.875rem;
+    width: fit-content;
+    padding: 1em;
+    clip: auto;
+    opacity: 0;
+    background: rgb(var(--colorBody));
+    color: var(--colorTextBody);
+    border: 1px solid rgb(var(--colorTextBody), 0.2);
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity calc(100ms * var(--animations-multiple)) ease-out;
+  }
+
+  .main-product__block-variant-picker .card-swatches__button:hover > span {
+    opacity: 1;
+  }
+}
+
+</style>
+
+
+
+
+
+
+{% schema %}
+"blocks": [
+,
+{
+  "type": "linkable_variants",
+  "name": "Linkable variants",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Applicable to color swatches only. [Learn more](https://loess.ticksy.com/article/19053/)."
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products",
+      "info": "Select all product color variants (including the product itself)."
+    }
+  ]
+}
+
+]
+{% endschema %}
+(* IN main-product and go to any snippet like product-template.liquid, product-blocks.liquid *)
+(* ======================= *)
+
+                  {%- when 'linkable_variants' -%}
+                    <div class="product-variation-block" {{ block.shopify_attributes }}>
+                      {%- liquid
+                        assign contains_product = false
+
+                        for product_variation in block.settings.products
+                          if product_variation == product
+                            assign contains_product = true
+                          endif
+                        endfor
+                      -%}
+
+                      {%- if contains_product -%}
+                          <div class="product-variation__wrapper">
+                            {%- assign color_swatch_configuration = settings.color_swatch_configuration | newline_to_br | split: '<br />' -%}
+
+                            {%- assign color_label_list = 'products.option.color' | t | replace: ', ', ',' | downcase | split: ',' | first -%}
+
+                            <span class="product-variation__wrapper">
+                              {{ color_label_list | capitalize }}: {{ product.metafields.custom.color_value.value | capitalize }}
+                            </span>
+
+                            <div class="product-variation__list input__select-wrapper">
+                              {%- for product_variation in block.settings.products -%}
+                                {%- assign value = product_variation.metafields.custom.color_value.value -%}
+
+                                {%- if product_variation == product %}
+                                  {%- assign selected = true -%}
+                                {%- else -%}
+                                  {%- assign selected = false -%}
+                                {%- endif -%}
+
+                                <a href="{{ product_variation.url }}" class="card-swatches__button card-swatches__button--large {% if selected %}card-swatches__button--active{% endif %}" style="{% render 'color-swatch', color_swatch_configuration: color_swatch_configuration, value: value %}">
+                                  <span class="sr-only">{{ value }}</span>
+                                </a>
+                              {%- endfor -%}
+                            </div>
+                          </div>
+                      {%- endif -%}
+                    </div>
+
+(* IN main-product and go to any snippet like product-template.liquid, product-blocks.liquid *)
+(* ======================= *)
+
+
+
