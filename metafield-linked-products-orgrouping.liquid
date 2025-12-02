@@ -1,0 +1,160 @@
+{% doc %}
+Product Metafields
+
+Linked Products
+pic.linked_products
+list of products
+
+Linked Product Value
+pic.linked_product_value
+single line text
+
+Linked Product Label
+pic.linked_product_label
+single line text
+
+Linked Product Swatch
+pic.linked_product_swatch
+single image
+
+{% enddoc %}
+<style>
+/* #region pi-linked-products */
+
+
+.pi-linked-products {
+  padding-top: 0;
+  padding-bottom: 12px;
+  border-top: none;
+  border-bottom: none;
+  margin-bottom: 10px;
+}
+
+.pi-linked-products-wrapper-inner {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  align-items: self-start;
+}
+
+
+.pi-linked-products__name {
+  display: grid;
+  min-width: 100px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pi-linked-products__name {
+  font-weight: 500;
+}
+.pi-linked-products__label-label {
+  font-weight: 500;
+}
+/* .pi-linked-products__label-value-divider {
+  display: none;
+} */
+.pi-linked-products__label-value {
+  font-weight: 400;
+  font-size: 12px;
+}
+.pi-linked-products__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(clamp(71px,3vw + 3rem,110px),1fr));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.pi-linked-products__item {
+  width: 25%;
+  flex: 0 1 25%;
+  max-width: calc(25% - 10px * 4 / 5);
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.pi-linked-products__label {
+  border: 1px solid #d3d3d3;
+  padding: 0;
+  display: block;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 140px;
+  width: 100%;
+}
+.pi-linked-product-selected .pi-linked-products__label {
+  border: 1px solid  #F6a0a1;
+  box-shadow: 0 1px 1px #F6a0a1;
+}
+
+.pi-linked-products .pi-linked-product__swatch {
+  display: block;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+}
+
+.pi-linked-product__swatch img {
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.pi-linked-products__label-text {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000;
+}
+
+
+/* #endregion pi-linked-products */
+</style>
+
+<div class="pi-product__linked-products">
+                {% if product.metafields.pic.linked_products.value != blank %}
+                  <div class="pi-linked-products">
+                    <div class="pi-linked-products-wrapper-inner">
+                      {% if product.metafields.pic.linked_product_value.value != blank %}
+                        <span class="pi-linked-products__name">
+                          <span class="pi-linked-products__label-label">{{ product.metafields.pic.linked_product_label.value }}</span>
+                          <span class="pi-linked-products__label-value-divider">:</span> 
+                          <span class="pi-linked-products__label-value">{{ product.metafields.pic.linked_product_value.value }}</span>
+                        </span>
+                      {% endif %}
+                      <div class="pi-linked-products__container">
+                        {% for linked_product in product.metafields.pic.linked_products.value %}
+                        
+                          {% unless linked_product.metafields.pic.linked_product_value.value == product.metafields.pic.linked_product_value.value %}<a href="{{ linked_product.url }}" class="pi-linked-products__item">{% else %}<div class="pi-linked-products__item pi-linked-product-selected">{% endunless %}
+                          {%  liquid
+                            if linked_product.metafields.pic.linked_product_swatch.value != blank
+                              assign swatch_image = linked_product.metafields.pic.linked_product_swatch.value
+                            else
+                              assign swatch_image = linked_product.images[1]
+                            endif
+                          %} 
+
+                            <span class="pi-linked-products__label">
+                              <span class="pi-linked-product__swatch">
+                                <img src="{{ swatch_image | image_url: width: 180 }}" alt="" width="180" height="auto">
+                              </span> 
+                            </span>
+                            <span class="pi-linked-products__label-text">
+                              {{ linked_product.metafields.pic.linked_product_value.value }}
+                            </span>
+                          {% unless linked_product.metafields.pic.linked_product_value.value == product.metafields.pic.linked_product_value.value %}</a>{% else %}</div>{% endunless %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+
+
+
+
+              </div> 
