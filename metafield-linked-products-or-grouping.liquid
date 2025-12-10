@@ -115,27 +115,47 @@ single image
 
 /* #endregion pi-linked-products */
 </style>
-
-<div class="pi-product__linked-products">
-                {% if product.metafields.pic.linked_products.value != blank %}
+             {% liquid
+                assign linked_products = product.metafields.pic.linked_products.value
+                assign linked_product_value = product.metafields.pic.linked_product_value.value
+                assign linked_product_label = product.metafields.pic.linked_product_label.value
+              %}
+              {% if linked_products != blank %}
+                <div class="pi-product__linked-products">
                   <div class="pi-linked-products">
                     <div class="pi-linked-products-wrapper-inner">
-                      {% if product.metafields.pic.linked_product_value.value != blank %}
+                      {% if linked_product_value != blank %}
                         <span class="pi-linked-products__name">
-                          <span class="pi-linked-products__label-label">{{ product.metafields.pic.linked_product_label.value }}</span>
+                          <span class="pi-linked-products__label-label">{{ linked_product_label }}</span>
                           <span class="pi-linked-products__label-value-divider">:</span> 
-                          <span class="pi-linked-products__label-value">{{ product.metafields.pic.linked_product_value.value }}</span>
+                          <span class="pi-linked-products__label-value">{{ linked_product_value }}</span>
                         </span>
                       {% endif %}
                       <div class="pi-linked-products__container">
                         {% for linked_product in product.metafields.pic.linked_products.value %}
-                        
-                          {% unless linked_product.metafields.pic.linked_product_value.value == product.metafields.pic.linked_product_value.value %}<a href="{{ linked_product.url }}" class="pi-linked-products__item">{% else %}<div class="pi-linked-products__item pi-linked-product-selected">{% endunless %}
+                        {% liquid
+                          assign product_id = product.id
+                          assign linked_product_id = linked_product.id
+                          assign linked_product_value = linked_product.metafields.pic.linked_product_value.value
+                          assign linked_product_swatch = linked_product.metafields.pic.linked_product_swatch.value
+                          assign linked_product_image = linked_product.images[0]
+                          assign linked_product_url = linked_product.url
+                          assign linked_product_title = linked_product.title
+                          assign linked_product_price = linked_product.price
+                          assign linked_product_compare_at_price = linked_product.compare_at_price
+                          assign linked_product_available = linked_product.available
+                          assign linked_product_variant_id = linked_product.variant_id
+                        %}
+                          {% unless linked_product_id == product_id %}
+                            <a href="{{ linked_product_url }}" class="pi-linked-products__item">
+                          {% else %}  
+                            <div class="pi-linked-products__item pi-linked-product-selected">
+                          {% endunless %}
                           {%  liquid
-                            if linked_product.metafields.pic.linked_product_swatch.value != blank
-                              assign swatch_image = linked_product.metafields.pic.linked_product_swatch.value
+                            if linked_product_swatch != blank
+                              assign swatch_image = linked_product_swatch
                             else
-                              assign swatch_image = linked_product.images[1]
+                              assign swatch_image = linked_product_image
                             endif
                           %} 
 
@@ -144,17 +164,20 @@ single image
                                 <img src="{{ swatch_image | image_url: width: 180 }}" alt="" width="180" height="auto">
                               </span> 
                             </span>
-                            <span class="pi-linked-products__label-text">
-                              {{ linked_product.metafields.pic.linked_product_value.value }}
-                            </span>
-                          {% unless linked_product.metafields.pic.linked_product_value.value == product.metafields.pic.linked_product_value.value %}</a>{% else %}</div>{% endunless %}
+                            {% if linked_product_value != blank %}
+                              <span class="pi-linked-products__label-text">
+                                {{ linked_product_value }}
+                              </span>
+                            {% endif %}
+                          {% unless linked_product_id == product_id %}
+                            </a>
+                          {% else %}
+                            </div>
+                          {% endunless %}
                         {% endfor %}
                       </div>
                     </div>
                   </div>
-                {% endif %}
-
-
-
-
-              </div> 
+                  
+                </div> 
+              {% endif %}
