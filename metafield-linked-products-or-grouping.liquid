@@ -18,6 +18,9 @@ pic.linked_product_swatch
 single image
 
 {% enddoc %}
+
+
+
 <style>
 /* #region pi-linked-products */
 
@@ -170,6 +173,123 @@ single image
                               </span>
                             {% endif %}
                           {% unless linked_product_id == product_id %}
+                            </a>
+                          {% else %}
+                            </div>
+                          {% endunless %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div> 
+              {% endif %}
+
+
+{% doc %}
+Product Metafields
+
+Size Linked Products
+pic.size_linked_products
+list of products
+
+Size Linked Product Value
+pic.size_linked_product_value
+single line text
+
+Size Linked Product Label
+pic.size_linked_product_label
+single line text
+
+Linked Product Swatch
+pic.linked_product_swatch
+single image
+
+{% enddoc %}
+
+<style>
+.pi-linked-products__item--size {
+  flex: 0 1 55px;
+}
+.pi-linked-products__label--size {
+  border: 1px solid #d3d3d3;
+  padding: 0;
+  display: inline-flex;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 55px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+}
+.pi-linked-products__label-text--size {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+</style>
+            
+{% liquid
+                assign size_linked_products = product.metafields.pic.size_linked_products.value
+                assign size_linked_product_value = product.metafields.pic.size_linked_product_value.value
+                assign size_linked_product_label = product.metafields.pic.size_linked_product_label.value
+              %}
+              {% if size_linked_products != blank %}
+                <div class="pi-product__linked-products pi-product__linked-products--size">
+                  <div class="pi-linked-products">
+                    <div class="pi-linked-products-wrapper-inner">
+                      {% if size_linked_product_label != blank %}
+                        <span class="pi-linked-products__name">
+                          <span class="pi-linked-products__label-label">{{ size_linked_product_label }}</span>
+                          {% comment %} {% if size_linked_product_value != blank %}
+                            <span class="pi-linked-products__label-value-divider">:</span> 
+                            <span class="pi-linked-products__label-value">{{ size_linked_product_value }}</span>
+                          {% endif %} {% endcomment %}
+                        </span>
+                      {% endif %}
+                      <div class="pi-linked-products__container">
+                        {% for size_linked_product in size_linked_products %}
+                        {% liquid
+                          assign product_id = product.id
+                          assign size_linked_product_id = size_linked_product.id
+                          assign size_linked_product_value = size_linked_product.metafields.pic.size_linked_product_value.value
+                          assign size_linked_product_swatch = size_linked_product.metafields.pic.size_linked_product_swatch.value
+                          assign size_linked_product_image = size_linked_product.images[0]
+                          assign size_linked_product_url = size_linked_product.url
+                          assign size_linked_product_title = size_linked_product.title
+                          assign size_linked_product_price = size_linked_product.price
+                          assign size_linked_product_compare_at_price = size_linked_product.compare_at_price
+                          assign size_linked_product_available = size_linked_product.available
+                          assign size_linked_product_variant_id = size_linked_product.variant_id
+                        %}
+                          {% unless size_linked_product_id == product_id %}
+                            <a href="{{ size_linked_product_url }}" class="pi-linked-products__item pi-linked-products__item--size">
+                          {% else %}  
+                            <div class="pi-linked-products__item pi-linked-product-selected pi-linked-products__item--size">
+                          {% endunless %}
+                          
+                          {% if size_linked_product_swatch != blank %}
+                            <span class="pi-linked-products__label">
+                              <span class="pi-linked-product__swatch">
+                                <img src="{{ size_linked_product_swatch | image_url: width: 180 }}" alt="" width="180" height="auto">
+                              </span> 
+                            </span>
+                            {% if size_linked_product_value != blank %}
+                              <span class="pi-linked-products__label-text">
+                                {{ size_linked_product_value }}
+                              </span>
+                            {% endif %}
+                          {% else %}
+                            {% if size_linked_product_value != blank %}
+                              <span class="pi-linked-products__label pi-linked-products__label--size">
+                                <span class="pi-linked-products__label-text pi-linked-products__label-text--size">
+                                  {{ size_linked_product_value }}
+                                </span>
+                              </span>  
+                            {% endif %}
+                          {% endif %}
+                          {% unless size_linked_product_id == product_id %}
                             </a>
                           {% else %}
                             </div>
